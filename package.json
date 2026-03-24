@@ -1,0 +1,30 @@
+{
+  "name": "omni-hooks",
+  "version": "1.0.0",
+  "description": "The universal hook toolkit for modern React apps. Optimized for React 19+, omni-hooks delivers lightning-fast state synchronization and seamless side-effect management in a tiny footprint.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lukachiti/omni-hooks.git"
+  },
+  "keywords": [
+    "hooks",
+    "custom",
+    "react",
+    "utils",
+    "typescript",
+    "browser-utils",
+    "frontend",
+    "omni-hooks",
+    "omni"
+  ],
+  "author": "group-27-28",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lukachiti/omni-hooks/issues"
+  },
+  "homepage": "https://github.com/Lukachiti/omni-hooks#readme"
+}
