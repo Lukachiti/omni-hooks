@@ -1,25 +1,42 @@
- import { useState, useRef } from "react";
+ import { useState, useRef, useEffect } from "react";
 
-export const useObject = (initObj) => {
-  const [obj, setObj] = useState(initObj);
-  const initRef = useRef(initObj);
+const useObject1 = (initial = {}) => {
+      const [obj, setObj] = useState(initial);
+      const initRef = useRef(initial);
 
-  const setProp = (key, value) => {
-    setObj((prev) => ({ ...prev, [key]: value }));
-  };
-  const setProps = (updates) => {
-    setObj((prev) => ({ ...prev, ...updates }));
-  };
+      const set = (newObj) => {
+        if(typeof newObj !== 'object' || newObj === null) return;
+        setObj(newObj)
+      }
 
-  const deleteProp = (key) => {
-    setObj((prev) => {
-      const copy = { ...prev };
-      delete [key];
-      return copy;
-    });
-  };
-  const reset = () => {
-    setObj(initRef.current);
-  };
-  return { obj, setProp, setProps, deleteProp, reset };
-};
+      const addProp = (key, value) => {
+        if (key == null) return;
+        setObj((prev) => ({ ...prev, [key]: value }));
+      };
+    
+      const merge = (updates) => {
+        if (typeof updates !== "object" || updates === null) return;
+        setObj((prev) => ({ ...prev, ...updates }));
+      };
+    
+      const remove = (key) => {
+        if (key == null) return;
+        setObj((prev) => {
+          const newObj = { ...prev };
+          delete newObj[key];
+          return newObj;
+        });
+      };
+    
+      const reset = () => {
+        setObj(initRef.current);
+      };
+
+      useEffect(() => {
+        initRef.current = initial
+      }, [initial])
+      
+      return { obj, set, addProp, merge, remove, reset };
+}
+
+export default useObject1
