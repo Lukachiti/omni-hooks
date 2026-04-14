@@ -1,60 +1,65 @@
-    import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react';
 
-const useToggle = (initialValue = false) => {
+const useToggle = (key = 'toggle', initialValue = false) => {
     const [value, setValue] = useState(() => {
-        const saved = localStorage.getItem('toggle')
-        return saved !== null ? JSON.parse(saved) : initialValue
-    })
-    const [history, setHistory] = useState([value])
-    const [locked, setLocked] = useState(false);
-    const timeOutRef = useRef()
+        try {
+            const saved = localStorage.getItem(key);
+            return saved !== null ? JSON.parse(saved) : initialValue;
+        } catch {
+            return initialValue;
+        }
+    });
 
-    const toggle = () => {
+    const [history, setHistory] = useState([value]);
+    const [locked, setLocked] = useState(false);
+    const timeOutRef = useRef(null);
+
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(value));
+    }, [key, value]);
+
+    useEffect(() => {
+        return () => {
+            if (timeOutRef.current) clearTimeout(timeOutRef.current);
+        };
+    }, []);
+
+    const toggle = useCallback(() => {
         if (locked) return;
         setValue(prev => {
             const next = !prev;
-            setHistory(prevHistory => [...prevHistory, next]);
+            setHistory(h => [...h, next]);
             return next;
         });
-    };
+    }, [locked]);
 
     const undo = () => {
-        setHistory(prevHistory => {
-            if (prevHistory.length <= 1) return prevHistory;
-            const newHistory = prevHistory.slice(0, -1);
-            setValue(newHistory[newHistory.length - 1]);
-            return newHistory;
-        });
+        if (history.length <= 1) return;
+        const newHistory = [...history];
+        newHistory.pop();
+        const previousValue = newHistory[newHistory.length - 1];
+        setHistory(newHistory);
+        setValue(previousValue);
     };
 
     const toggleAfter = (ms = 1000) => {
-        if(timeOutRef.current){
-            clearTimeout(timeOutRef.current)
-        }
+        if (locked) return;
+        if (timeOutRef.current) clearTimeout(timeOutRef.current);
         timeOutRef.current = setTimeout(() => {
-            setValue(prev => {
-                const next = !prev
-                setHistory(prevHistory => [...prevHistory, next])
-                return next
-            });
-            timeOutRef.current = null
+            toggle();
+            timeOutRef.current = null;
         }, ms);
     };
 
     const reset = () => {
-        if(timeOutRef.current){
-            clearTimeout(timeOutRef.current)
-            timeOutRef.current = null
-        }
-        setValue(initialValue)
-        setHistory([initialValue])
-    }
-    useEffect(() => {
-        localStorage.setItem("toggle", JSON.stringify(value));
-    }, [value]);
+        if (timeOutRef.current) clearTimeout(timeOutRef.current);
+        setValue(initialValue);
+        setHistory([initialValue]);
+    };
 
     const toggleLocked = () => setLocked(prev => !prev);
 
-    return { toggle, toggleAfter, undo, reset, history, toggleLocked }
-}
-export default useToggle
+    return { value, toggle, toggleAfter, undo, reset, history, locked, toggleLocked };
+};
+
+export default useToggle;
