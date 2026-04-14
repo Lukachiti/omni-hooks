@@ -35,5 +35,4 @@ const useObject = <T extends Record<string, any>>(initialValue: T) => {
 
   return { obj, set, addProp, merge, remove, reset };
 };
-
 export default useObject;
