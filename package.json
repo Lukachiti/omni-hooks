@@ -4,7 +4,7 @@
   "description": "The universal hook toolkit for modern React apps. Optimized for React 19+, omni-hooks delivers lightning-fast state synchronization and seamless side-effect management in a tiny footprint.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,18 @@
   "bugs": {
     "url": "https://github.com/Lukachiti/omni-hooks/issues"
   },
-  "homepage": "https://github.com/Lukachiti/omni-hooks#readme"
+  "homepage": "https://github.com/Lukachiti/omni-hooks#readme",
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "jest": "^30.3.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "ts-jest": "^29.4.9"
+  },
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
 }
