@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useThrottle } from "./useThrottle";
+import useThrottle from "./useThrottle";
 import {
   jest,
   describe,

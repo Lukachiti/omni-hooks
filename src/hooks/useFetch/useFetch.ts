@@ -36,8 +36,9 @@ const useFetch = (url: string | null) => {
                 }
             }
         };
-
+        
         fetchData();
+        
         return () => {
             mounted = false;
             controller.abort();

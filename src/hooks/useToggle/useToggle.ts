@@ -31,7 +31,7 @@ const useToggle = (key: string = 'toggle', initialValue: boolean = false): UseTo
 
     useEffect(() => {
         return () => {
-           if (timeOutRef.current) clearTimeout(timeOutRef.current);
+            if (timeOutRef.current) clearTimeout(timeOutRef.current);
         };
     }, []);
 

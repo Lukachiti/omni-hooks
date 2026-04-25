@@ -5,7 +5,7 @@ type ClickOutsideOptions = {
     enabled?: boolean;
 };
 
-export const useClickOutside = (
+const useClickOutside = (
     refs: RefObject<HTMLElement> | RefObject<HTMLElement>[],
     handler: (event: Event) => void,
     { eventType = "mousedown", enabled = true }: ClickOutsideOptions = {}
@@ -24,3 +24,5 @@ export const useClickOutside = (
       return () => document.removeEventListener(eventType, handleClick);
     }, [refs, handler, eventType, enabled]);
 };
+
+export default useClickOutside;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export function useIdle(timeout: number = 0): boolean {
+const useIdle = (timeout: number = 0): boolean => {
     const [idle, setIdle] = useState<boolean>(false);
 
     useEffect(() => {
@@ -27,3 +27,5 @@ export function useIdle(timeout: number = 0): boolean {
 
     return idle;
 } 
+
+export default useIdle;
